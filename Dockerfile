@@ -6,3 +6,4 @@ RUN sudo apt-get update && \
 COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/home/runner/run.sh"]
