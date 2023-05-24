@@ -1,0 +1,15 @@
+name: build
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build.yaml
+      - Dockerfile
+      - entrypoint.sh
+  push:
+    branches:
+      - main
+
+jobs:
+  image:
+    uses: int128/docker-build-workflow/.github/workflows/build.yaml@v1
