@@ -12,3 +12,5 @@ wait_for_docker () {
 
 sudo /usr/bin/dockerd &
 wait_for_docker
+
+exec "$@"
