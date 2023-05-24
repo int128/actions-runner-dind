@@ -13,3 +13,6 @@ on:
 jobs:
   image:
     uses: int128/docker-build-workflow/.github/workflows/build.yaml@v1
+    permissions:
+      contents: read
+      packages: write
