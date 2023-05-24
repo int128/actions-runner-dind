@@ -1,9 +1,14 @@
 #!/bin/bash
-sudo /usr/bin/dockerd &
 
-for i in {1..60}; do
-  if docker version --format '{{.Server.Version}}'; then
-    break
-  fi
-  sleep 1
-done
+wait_for_docker () {
+  for i in {1..60}; do
+    if docker version --format '{{.Server.Version}}'; then
+      return
+    fi
+    sleep 1
+  done
+  exit 1
+}
+
+sudo /usr/bin/dockerd &
+wait_for_docker
