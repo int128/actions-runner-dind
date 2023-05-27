@@ -11,12 +11,11 @@ deploy:
 	helmfile sync
 	helm list -A
 	kubectl get pods -n arc-systems
-	kubectl wait pods -n arc-systems --all --for=condition=Ready
 
 .PHONY: wait-for-job
 wait-for-job:
-	kubectl wait pods -n arc-systems --all --for=condition=Ready
-	kubectl wait pods -n arc-runners --all --for=condition=Ready
+	while ! kubectl wait pods -n arc-runners --all --for=condition=Ready; do sleep 1; done
+	kubectl get pods -n arc-runners
 	-kubectl logs -n arc-runners -l app.kubernetes.io/component=runner --tail=-1 -f
 
 .PHONY: logs
