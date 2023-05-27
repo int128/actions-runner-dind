@@ -16,3 +16,36 @@ jobs:
     permissions:
       contents: read
       packages: write
+
+  e2e-test-controller:
+    needs: image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: e2e-test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: aquaproj/aqua-installer@v2.1.1
+        with:
+          aqua_version: v2.7.1
+          working_directory: e2e-test
+      - run: make cluster
+      - run: make deploy
+        env:
+          RUNNER_IMAGE_URI: ghcr.io/${{ github.repository }}@${{ needs.image.outputs.digest }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      - run: make wait-for-job
+      - run: sleep 5
+      - run: make logs
+        if: always()
+
+  e2e-test-runner:
+    needs: image
+    runs-on: arc-runner-set
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker version
