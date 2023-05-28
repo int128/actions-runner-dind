@@ -9,3 +9,4 @@ RUN sudo apt-get update && \
 COPY entrypoint.sh /
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
+CMD ["/home/runner/run.sh"]
