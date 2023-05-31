@@ -12,7 +12,7 @@ releases:
     version: 0.4.0
 
   - needs: [arc-systems/arc]
-    name: arc-runner-set
+    name: runner-scale-set-{{ requiredEnv "GITHUB_RUN_ID" }}
     namespace: arc-runners
     chart: actions-runner-controller-charts/gha-runner-scale-set
     version: 0.4.0
