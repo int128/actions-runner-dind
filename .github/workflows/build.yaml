@@ -7,6 +7,10 @@ on:
       - Dockerfile
       - entrypoint.sh
   push:
+    paths:
+      - .github/workflows/build.yaml
+      - Dockerfile
+      - entrypoint.sh
     branches:
       - main
 
@@ -18,7 +22,7 @@ jobs:
       contents: read
       packages: write
     outputs:
-      digest: ${{ steps.build.outputs.digest }}
+      image-uri: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
     steps:
       - uses: docker/login-action@v2
         with:
@@ -47,40 +51,9 @@ jobs:
             linux/amd64
             linux/arm64
 
-  e2e-test-controller:
+  e2e-test:
     needs: image
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: e2e-test
-    steps:
-      - uses: actions/checkout@v3
-      - uses: aquaproj/aqua-installer@v2.1.1
-        with:
-          aqua_version: v2.7.1
-          working_directory: e2e-test
-      - run: make cluster
-      - run: make deploy
-        env:
-          RUNNER_IMAGE_URI: ghcr.io/${{ github.repository }}@${{ needs.image.outputs.digest }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
-          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
-      - run: make wait-for-job
-      - run: sleep 5
-      - run: make logs
-        if: always()
-
-  e2e-test-runner:
-    needs: image
-    runs-on: runner-scale-set-${{ github.run_id }}
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v3
-      - run: docker version
-      # build Go application
-      - run: docker build -t fixture -f e2e-test/fixture.dockerfile e2e-test
-      - run: docker run --rm fixture
-      # mount a volume
-      - run: docker run -v "$PWD:/workspace" --rm debian ls -l /workspace/README.md
+    uses: ./.github/workflows/e2e-test.yaml
+    secrets: inherit
+    with:
+      runner-image-uri: ${{ needs.image.outputs.image-uri }}
