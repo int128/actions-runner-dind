@@ -52,7 +52,10 @@ WORKDIR /home/runner
 
 COPY --chown=runner:docker --from=build /actions-runner .
 
-RUN install -o root -g root -m 755 docker/* /usr/bin/ && rm -rf docker
+RUN install -o root -g root -m 755 docker/* /usr/bin/ \
+    && rm -rf docker \
+    && mkdir /opt/hostedtoolcache \
+    && chown runner:docker /opt/hostedtoolcache
 
 USER runner
 
