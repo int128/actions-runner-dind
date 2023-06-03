@@ -33,7 +33,6 @@ jobs:
         if: always()
       - run: make undeploy
         if: always()
-        continue-on-error: true
 
   runner:
     runs-on: runner-scale-set-${{ github.run_id }}
