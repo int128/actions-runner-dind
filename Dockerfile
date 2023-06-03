@@ -1,8 +1,7 @@
-FROM ubuntu:22.04 as build
+# based on https://github.com/actions/runner/blob/v2.304.0/images/Dockerfile
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy as build
 
 ARG TARGETARCH
-
-# based on https://github.com/actions/runner/blob/v2.304.0/images/Dockerfile
 ARG RUNNER_VERSION=2.304.0
 ARG RUNNER_CONTAINER_HOOKS_VERSION=0.3.2
 ARG DOCKER_VERSION=20.10.23
@@ -26,9 +25,10 @@ RUN DOCKER_ARCH=x86_64 \
     && tar zxvf docker.tgz \
     && rm -rf docker.tgz
 
-FROM ubuntu:22.04
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy as build
 
 ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
         # based on https://github.com/actions/actions-runner-controller/blob/aac811f210782d1a35e33ffcfe12db69ebe8e447/runner/actions-runner.ubuntu-22.04.dockerfile
@@ -51,11 +51,12 @@ RUN adduser --disabled-password --gecos "" --uid 1001 runner \
 WORKDIR /home/runner
 
 COPY --chown=runner:docker --from=build /actions-runner .
+
 RUN install -o root -g root -m 755 docker/* /usr/bin/ && rm -rf docker
 
-COPY entrypoint.sh /
-
 USER runner
+
+COPY entrypoint.sh /
 
 ENV ImageOS=ubuntu22
 
