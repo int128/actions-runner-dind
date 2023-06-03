@@ -6,11 +6,13 @@ on:
       - .github/workflows/build.yaml
       - Dockerfile
       - entrypoint.sh
+      - e2e-test/**
   push:
     paths:
       - .github/workflows/build.yaml
       - Dockerfile
       - entrypoint.sh
+      - e2e-test/**
     branches:
       - main
 
