@@ -1,15 +1,16 @@
 FROM ubuntu:22.04 as build
 
-# based on https://github.com/actions/runner/blob/v2.304.0/images/Dockerfile
 ARG TARGETARCH
-ARG RUNNER_VERSION
+
+# based on https://github.com/actions/runner/blob/v2.304.0/images/Dockerfile
+ARG RUNNER_VERSION=v2.304.0
 ARG RUNNER_CONTAINER_HOOKS_VERSION=0.3.2
 ARG DOCKER_VERSION=20.10.23
 
 RUN apt update -y && apt install curl unzip -y
 
 WORKDIR /actions-runner
-RUN RUNNER_ARCH="x64" \
+RUN RUNNER_ARCH=x64 \
     && if [ "$TARGETARCH" = "arm64" ]; then RUNNER_ARCH=arm64 ; fi \
     && curl -f -L -o runner.tar.gz https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz \
     && tar xzf ./runner.tar.gz \
@@ -50,7 +51,6 @@ RUN adduser --disabled-password --gecos "" --uid 1001 runner \
 WORKDIR /home/runner
 
 COPY --chown=runner:docker --from=build /actions-runner .
-
 RUN install -o root -g root -m 755 docker/* /usr/bin/ && rm -rf docker
 
 COPY entrypoint.sh /
