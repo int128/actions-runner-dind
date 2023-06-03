@@ -1,5 +1,5 @@
 # based on https://github.com/actions/runner/blob/v2.304.0/images/Dockerfile
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0-jammy
 
 ARG TARGETARCH
 ARG RUNNER_VERSION=2.304.0
