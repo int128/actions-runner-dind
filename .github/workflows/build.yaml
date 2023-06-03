@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - .github/workflows/build.yaml
+      - .github/workflows/e2e-test.yaml
       - Dockerfile
       - entrypoint.sh
       - e2e-test/**
   push:
     paths:
       - .github/workflows/build.yaml
+      - .github/workflows/e2e-test.yaml
       - Dockerfile
       - entrypoint.sh
       - e2e-test/**
