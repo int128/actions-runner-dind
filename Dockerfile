@@ -25,7 +25,7 @@ RUN DOCKER_ARCH=x86_64 \
     && tar zxvf docker.tgz \
     && rm -rf docker.tgz
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy as build
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
