@@ -39,8 +39,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker version
-      # build Go application
-      - run: docker build -t fixture -f e2e-test/fixture.dockerfile e2e-test
-      - run: docker run --rm fixture
-      # mount a volume
-      - run: docker run -v "$PWD:/workspace" --rm debian ls -l /workspace/README.md
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
