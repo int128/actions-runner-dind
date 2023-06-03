@@ -21,3 +21,7 @@ wait-for-job:
 .PHONY: logs
 logs:
 	-kubectl logs -n arc-systems -l app.kubernetes.io/component=controller-manager --tail=-1
+
+.PHONY: undeploy
+logs:
+	helmfile destroy
