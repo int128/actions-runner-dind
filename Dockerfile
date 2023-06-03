@@ -3,7 +3,7 @@ FROM ubuntu:22.04 as build
 ARG TARGETARCH
 
 # based on https://github.com/actions/runner/blob/v2.304.0/images/Dockerfile
-ARG RUNNER_VERSION=v2.304.0
+ARG RUNNER_VERSION=2.304.0
 ARG RUNNER_CONTAINER_HOOKS_VERSION=0.3.2
 ARG DOCKER_VERSION=20.10.23
 
