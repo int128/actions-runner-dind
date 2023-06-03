@@ -40,6 +40,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker version
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
       # build Go application
       - run: docker build -t fixture -f e2e-test/fixture.dockerfile e2e-test
       - run: docker run --rm fixture
