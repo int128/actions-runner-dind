@@ -19,14 +19,14 @@ releases:
     values:
       - githubConfigUrl: https://github.com/{{ requiredEnv "GITHUB_REPOSITORY" }}
         githubConfigSecret:
-          github_app_id: {{ requiredEnv "APP_ID" | quote }}
-          github_app_installation_id: {{ requiredEnv "APP_INSTALLATION_ID" | quote }}
-          github_app_private_key: {{ requiredEnv "APP_PRIVATE_KEY" | quote }}
+          github_app_id: {{ env "APP_ID" | quote }}
+          github_app_installation_id: {{ env "APP_INSTALLATION_ID" | quote }}
+          github_app_private_key: {{ env "APP_PRIVATE_KEY" | quote }}
         template:
           spec:
             containers:
               - name: runner
-                image: {{ requiredEnv "RUNNER_IMAGE_URI" | quote }}
+                image: {{ env "RUNNER_IMAGE_URI" | quote }}
                 securityContext:
                   privileged: true
 
