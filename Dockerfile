@@ -12,8 +12,9 @@ RUN apt-get update -y \
         curl \
         unzip \
         sudo \
+        # for actions/checkout
         git \
-        # dockerd dependencies
+        # for dockerd
         tini \
         iptables
 
@@ -52,6 +53,7 @@ COPY entrypoint.sh /
 
 USER runner
 
+# https://github.com/actions/runner-images/issues/345
 ENV ImageOS=ubuntu22
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
