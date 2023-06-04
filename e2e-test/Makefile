@@ -20,7 +20,7 @@ wait-for-job:
 
 .PHONY: undeploy
 undeploy:
-	kubectl delete -n arc-runners --all RunnerScaleSets
+	kubectl delete -n arc-runners --all AutoscalingRunnerSet
 
 .PHONY: logs
 logs:
