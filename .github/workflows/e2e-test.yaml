@@ -50,4 +50,6 @@ jobs:
           file: e2e-test/fixture.dockerfile
       # setup actions
       - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3
       - uses: actions/setup-python@v4
