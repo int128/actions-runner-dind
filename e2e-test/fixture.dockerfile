@@ -1,10 +1,9 @@
-FROM golang:1.20 as builder
+FROM debian:stable as builder
 WORKDIR /workspace
-COPY fixture.go /workspace
-RUN CGO_ENABLED=0 go build -o main /workspace/fixture.go
+COPY Makefile /workspace
+RUN test -s Makefile
 
-FROM gcr.io/distroless/static:nonroot
+FROM debian:stable
 WORKDIR /
-COPY --from=builder /workspace/main .
-USER 65532:65532
-CMD ["/main"]
+COPY --from=builder /workspace/Makefile .
+RUN test -s Makefile
