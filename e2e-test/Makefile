@@ -18,10 +18,10 @@ wait-for-job:
 	kubectl get pods -n arc-runners
 	-kubectl logs -n arc-runners -l app.kubernetes.io/component=runner --tail=-1 -f
 
+.PHONY: undeploy
+undeploy:
+	kubectl delete -n arc-runners --all RunnerScaleSets
+
 .PHONY: logs
 logs:
 	-kubectl logs -n arc-systems -l app.kubernetes.io/component=controller-manager --tail=-1
-
-.PHONY: undeploy
-undeploy:
-	helmfile destroy

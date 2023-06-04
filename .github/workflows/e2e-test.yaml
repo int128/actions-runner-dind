@@ -29,9 +29,9 @@ jobs:
           APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       - run: make wait-for-job
-      - run: make logs
-        if: always()
       - run: make undeploy
+        if: always()
+      - run: make logs
         if: always()
 
   runner:
