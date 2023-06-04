@@ -37,6 +37,11 @@ jobs:
   runner:
     runs-on: runner-scale-set-${{ github.run_id }}
     timeout-minutes: 10
+    services:
+      db:
+        image: nginx:stable
+        ports:
+          - 8080:80
     steps:
       - uses: actions/checkout@v3
       # dockerd
@@ -53,3 +58,5 @@ jobs:
         with:
           ruby-version: 3
       - uses: actions/setup-python@v4
+      # service container
+      - run: curl -sf http://localhost:8080
