@@ -5,4 +5,14 @@
     "github>aquaproj/aqua-renovate-config#1.6.0",
     "github>aquaproj/aqua-renovate-config:file#1.6.0(aqua/.*\\.ya?ml)",
   ],
+  "regexManagers": [
+    {
+      "description": "Update actions/runner version",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": ["RUNNER_VERSION=(?<currentValue>.*?)\\s"],
+      "depNameTemplate": "actions/runner",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+    },
+  ],
 }
