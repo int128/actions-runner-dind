@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo /usr/bin/dockerd &
+sudo /usr/local/bin/dind /usr/local/bin/dockerd &
 exec "$@"
